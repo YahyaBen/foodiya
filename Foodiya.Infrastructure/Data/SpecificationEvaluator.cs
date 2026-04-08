@@ -104,13 +104,15 @@ public static class SpecificationEvaluator<T> where T : class
     private static object ApplyInclude(IQueryable<T> query, IncludeExpressionInfo includeInfo)
     {
         // Build: query.Include(expression)
-        // We use reflection to call the generic Include<T, TProperty> method
+        // We use reflection to call the generic Include<T, TProperty> method.
+        // Use the expression's actual return type so that collection navigations
+        // (e.g. ICollection<FoodCategory>) are passed correctly to Include<T, TProperty>.
         var includeMethod = typeof(EntityFrameworkQueryableExtensions)
             .GetMethods()
             .First(m => m.Name == nameof(EntityFrameworkQueryableExtensions.Include)
                         && m.GetParameters().Length == 2
                         && m.GetParameters()[0].ParameterType.GetGenericTypeDefinition() == typeof(IQueryable<>))
-            .MakeGenericMethod(typeof(T), includeInfo.PropertyType);
+            .MakeGenericMethod(typeof(T), includeInfo.Expression.ReturnType);
 
         return includeMethod.Invoke(null, [query, includeInfo.Expression])!;
     }
