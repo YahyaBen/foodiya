@@ -81,11 +81,17 @@ internal class Program
             app.UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseHttpsRedirection();
+        }
+
         app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
+
+        app.MapGet("/health", () => Results.Ok("Healthy"));
 
         app.Run();
     }

@@ -8,4 +8,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__DefaultConnection: ${DEFAULT_CONNECTION}
-      TokenKey: ${TOKEN_KEY}
+      Authentication__Jwt__SigningKey: ${TOKEN_KEY}
+      Authentication__Jwt__Issuer: ${JWT_ISSUER:-Foodiya}
+      Authentication__Jwt__Audience: ${JWT_AUDIENCE:-FoodiyaApp}
+      Authentication__Jwt__AccessTokenLifetimeMinutes: ${JWT_LIFETIME:-60}
