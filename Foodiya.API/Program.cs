@@ -11,6 +11,8 @@ internal class Program
 {
     private static void Main(string[] args)
     {
+        try
+        {
         var builder = WebApplication.CreateBuilder(args);
         builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
         ConfigureAuthentication(builder.Services, builder.Configuration);
@@ -94,6 +96,16 @@ internal class Program
         app.MapGet("/health", () => Results.Ok("Healthy"));
 
         app.Run();
+        }
+        catch (Exception ex)
+        {
+            // Fallback: if the app crashes on startup, start a minimal server that shows the error
+            var fallback = WebApplication.CreateBuilder(args).Build();
+            var errorMessage = $"Startup failed: {ex}";
+            Console.Error.WriteLine(errorMessage);
+            fallback.MapGet("/{**path}", () => Results.Text(errorMessage, "text/plain", statusCode: 500));
+            fallback.Run();
+        }
     }
 
     private static void ConfigureAuthentication(IServiceCollection services, IConfiguration configuration)
