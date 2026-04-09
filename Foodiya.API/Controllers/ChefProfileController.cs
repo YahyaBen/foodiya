@@ -1,3 +1,5 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Foodiya.API.Controllers.Common;
 using Foodiya.Domain.Constants;
 using Foodiya.Application.DTOs.ChefProfile.Request;
@@ -60,10 +62,38 @@ public sealed class ChefProfileController : BaseController
     }
 
     /// <summary>
-    /// Create a new chef profile
+    /// Create my chef profile (self-registration)
     /// </summary>
     /// <remarks>
-    /// Creates a chef profile for the specified AppUser. One user can own only one chef profile.
+    /// Any authenticated user can create their own chef profile.
+    /// The owner is derived from the JWT token – no user ID needs to be supplied.
+    /// One user can own only one chef profile.
+    /// </remarks>
+    /// <param name="request">Chef profile payload</param>
+    [HttpPost("me")]
+    [ProducesResponseType(typeof(ChefProfileDetailResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<ChefProfileDetailResponse>> CreateMine([FromBody] CreateChefProfileRequest request, CancellationToken ct)
+    {
+        var subClaim = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+        if (!int.TryParse(subClaim, out var userId))
+            return Unauthorized();
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var created = await _chefProfileService.CreateAsync(userId, request, ct);
+        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+    }
+
+    /// <summary>
+    /// Create a chef profile for another user (admin)
+    /// </summary>
+    /// <remarks>
+    /// Admin-only endpoint. Creates a chef profile on behalf of the specified AppUser.
+    /// One user can own only one chef profile.
     /// </remarks>
     /// <param name="userId">AppUser identifier that will own the profile</param>
     /// <param name="request">Chef profile payload</param>
