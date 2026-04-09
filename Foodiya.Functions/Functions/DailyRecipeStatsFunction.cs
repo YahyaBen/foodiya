@@ -152,7 +152,7 @@ public sealed class DailyRecipeStatsFunction
             RecentRecipesJson = JsonSerializer.Serialize(recentRecipes, jsonOptions),
             CuisineBreakdownJson = JsonSerializer.Serialize(byCuisine, jsonOptions),
             DifficultyBreakdownJson = JsonSerializer.Serialize(byDifficulty, jsonOptions),
-            Code = EntityCodeGenerator.ForDate("DRS", today)
+            Code = EntityCodeGenerator.For("DRS")
         };
 
         // Upsert: if a row for today already exists (e.g. manual re-run), update it.
