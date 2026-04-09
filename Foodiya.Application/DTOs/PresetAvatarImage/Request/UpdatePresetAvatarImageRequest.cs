@@ -4,9 +4,6 @@ namespace Foodiya.Application.DTOs.PresetAvatarImage.Request;
 
 public sealed class UpdatePresetAvatarImageRequest
 {
-    [StringLength(50)]
-    public string? Code { get; set; }
-
     [StringLength(100)]
     public string? Label { get; set; }
 

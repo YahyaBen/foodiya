@@ -1,5 +1,6 @@
 using Foodiya.Application.DTOs.Cuisine.Request;
 using Foodiya.Application.Interfaces.Factories;
+using Foodiya.Domain.Extensions;
 using Foodiya.Domain.Interfaces.Core;
 using Foodiya.Domain.Models;
 using static Foodiya.Application.Factories.Helpers.EntityNormalizationHelper;
@@ -11,7 +12,7 @@ public sealed class CuisineFactory : ICuisineFactory
     public Cuisine Create(CreateCuisineRequest request) => new()
     {
         Name = Required(request.Name, nameof(request.Name)),
-        Code = Code(request.Code, nameof(request.Code)),
+        Code = EntityCodeGenerator.For("CUI"),
         SortOrder = request.SortOrder,
         IconUrl = Optional(request.IconUrl),
         Color = Optional(request.Color),
@@ -22,9 +23,6 @@ public sealed class CuisineFactory : ICuisineFactory
     {
         if (request.Name is not null)
             cuisine.Name = Required(request.Name, nameof(request.Name));
-
-        if (request.Code is not null)
-            cuisine.Code = Code(request.Code, nameof(request.Code));
 
         if (request.SortOrder.HasValue)
             cuisine.SortOrder = request.SortOrder.Value;

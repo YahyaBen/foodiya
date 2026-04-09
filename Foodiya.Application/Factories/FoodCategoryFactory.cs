@@ -1,5 +1,6 @@
 using Foodiya.Application.DTOs.FoodCategory.Request;
 using Foodiya.Application.Interfaces.Factories;
+using Foodiya.Domain.Extensions;
 using Foodiya.Domain.Interfaces.Core;
 using Foodiya.Domain.Models;
 using static Foodiya.Application.Factories.Helpers.EntityNormalizationHelper;
@@ -12,7 +13,7 @@ public sealed class FoodCategoryFactory : IFoodCategoryFactory
     {
         Name = Required(request.Name, nameof(request.Name)),
         Description = Optional(request.Description),
-        Code = Code(request.Code, nameof(request.Code)),
+        Code = EntityCodeGenerator.For("FCT"),
         SortOrder = request.SortOrder,
         IconUrl = Optional(request.IconUrl),
         Color = Optional(request.Color),
@@ -26,9 +27,6 @@ public sealed class FoodCategoryFactory : IFoodCategoryFactory
 
         if (request.Description is not null)
             foodCategory.Description = Optional(request.Description);
-
-        if (request.Code is not null)
-            foodCategory.Code = Code(request.Code, nameof(request.Code));
 
         if (request.SortOrder.HasValue)
             foodCategory.SortOrder = request.SortOrder.Value;

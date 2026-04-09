@@ -7,9 +7,6 @@ public sealed class CreateDifficultyRequest
     [Required, StringLength(50)]
     public string Name { get; set; } = string.Empty;
 
-    [Required, StringLength(30)]
-    public string Code { get; set; } = string.Empty;
-
     [Range(0, int.MaxValue)]
     public int SortOrder { get; set; }
 

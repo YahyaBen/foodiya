@@ -4,9 +4,6 @@ namespace Foodiya.Application.DTOs.PresetAvatarImage.Request;
 
 public sealed class CreatePresetAvatarImageRequest
 {
-    [Required, StringLength(50)]
-    public string Code { get; set; } = string.Empty;
-
     [Required, StringLength(100)]
     public string Label { get; set; } = string.Empty;
 

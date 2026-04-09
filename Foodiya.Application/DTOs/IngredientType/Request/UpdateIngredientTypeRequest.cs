@@ -4,9 +4,6 @@ namespace Foodiya.Application.DTOs.IngredientType.Request;
 
 public sealed class UpdateIngredientTypeRequest
 {
-    [StringLength(30)]
-    public string? Code { get; set; }
-
     [StringLength(80)]
     public string? Label { get; set; }
 

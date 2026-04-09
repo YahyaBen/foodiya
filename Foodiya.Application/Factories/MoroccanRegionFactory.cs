@@ -1,5 +1,6 @@
 using Foodiya.Application.DTOs.MoroccanRegion.Request;
 using Foodiya.Application.Interfaces.Factories;
+using Foodiya.Domain.Extensions;
 using Foodiya.Domain.Interfaces.Core;
 using Foodiya.Domain.Models;
 using static Foodiya.Application.Factories.Helpers.EntityNormalizationHelper;
@@ -10,7 +11,7 @@ public sealed class MoroccanRegionFactory : IMoroccanRegionFactory
 {
     public MoroccanRegion Create(CreateMoroccanRegionRequest request) => new()
     {
-        Code = Code(request.Code, nameof(request.Code)),
+        Code = EntityCodeGenerator.For("REG"),
         Name = Required(request.Name, nameof(request.Name)),
         SortOrder = request.SortOrder,
         IsActive = request.IsActive
@@ -18,9 +19,6 @@ public sealed class MoroccanRegionFactory : IMoroccanRegionFactory
 
     public void Update(MoroccanRegion region, UpdateMoroccanRegionRequest request, DateTime utcNow)
     {
-        if (request.Code is not null)
-            region.Code = Code(request.Code, nameof(request.Code));
-
         if (request.Name is not null)
             region.Name = Required(request.Name, nameof(request.Name));
 

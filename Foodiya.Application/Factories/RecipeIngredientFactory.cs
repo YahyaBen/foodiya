@@ -1,6 +1,7 @@
 using Foodiya.Application.DTOs.RecipeIngredient.Request;
 using Foodiya.Application.Interfaces.Factories;
 using Foodiya.Domain.Exceptions;
+using Foodiya.Domain.Extensions;
 using Foodiya.Domain.Models;
 using static Foodiya.Application.Factories.Helpers.EntityNormalizationHelper;
 
@@ -10,6 +11,7 @@ public sealed class RecipeIngredientFactory : IRecipeIngredientFactory
 {
     public RecipeIngredient Create(CreateRecipeIngredientRequest request) => new()
     {
+        Code = EntityCodeGenerator.For("RIG"),
         RecipeId = request.RecipeId,
         IngredientId = request.IngredientId,
         Quantity = request.Quantity,

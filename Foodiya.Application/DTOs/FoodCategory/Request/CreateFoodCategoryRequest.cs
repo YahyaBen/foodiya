@@ -10,9 +10,6 @@ public sealed class CreateFoodCategoryRequest
     [StringLength(250)]
     public string? Description { get; set; }
 
-    [Required, StringLength(30)]
-    public string Code { get; set; } = string.Empty;
-
     [Range(0, int.MaxValue)]
     public int SortOrder { get; set; }
 

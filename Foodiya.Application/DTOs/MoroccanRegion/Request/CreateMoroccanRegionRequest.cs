@@ -4,9 +4,6 @@ namespace Foodiya.Application.DTOs.MoroccanRegion.Request;
 
 public sealed class CreateMoroccanRegionRequest
 {
-    [Required, StringLength(20)]
-    public string Code { get; set; } = string.Empty;
-
     [Required, StringLength(150)]
     public string Name { get; set; } = string.Empty;
 

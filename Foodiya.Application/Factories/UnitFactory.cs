@@ -1,5 +1,6 @@
 using Foodiya.Application.DTOs.Unit.Request;
 using Foodiya.Application.Interfaces.Factories;
+using Foodiya.Domain.Extensions;
 using Foodiya.Domain.Interfaces.Core;
 using Foodiya.Domain.Models;
 using static Foodiya.Application.Factories.Helpers.EntityNormalizationHelper;
@@ -10,7 +11,7 @@ public sealed class UnitFactory : IUnitFactory
 {
     public Unit Create(CreateUnitRequest request) => new()
     {
-        Code = Code(request.Code, nameof(request.Code)),
+        Code = EntityCodeGenerator.For("UNT"),
         Label = Required(request.Label, nameof(request.Label)),
         SortOrder = request.SortOrder,
         IsActive = request.IsActive
@@ -18,9 +19,6 @@ public sealed class UnitFactory : IUnitFactory
 
     public void Update(Unit unit, UpdateUnitRequest request, DateTime utcNow)
     {
-        if (request.Code is not null)
-            unit.Code = Code(request.Code, nameof(request.Code));
-
         if (request.Label is not null)
             unit.Label = Required(request.Label, nameof(request.Label));
 

@@ -10,9 +10,6 @@ public sealed class UpdateFoodCategoryRequest
     [StringLength(250)]
     public string? Description { get; set; }
 
-    [StringLength(30)]
-    public string? Code { get; set; }
-
     [Range(0, int.MaxValue)]
     public int? SortOrder { get; set; }
 

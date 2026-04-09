@@ -1,5 +1,6 @@
 using Foodiya.Application.DTOs.IngredientType.Request;
 using Foodiya.Application.Interfaces.Factories;
+using Foodiya.Domain.Extensions;
 using Foodiya.Domain.Interfaces.Core;
 using Foodiya.Domain.Models;
 using static Foodiya.Application.Factories.Helpers.EntityNormalizationHelper;
@@ -10,7 +11,7 @@ public sealed class IngredientTypeFactory : IIngredientTypeFactory
 {
     public IngredientType Create(CreateIngredientTypeRequest request) => new()
     {
-        Code = Code(request.Code, nameof(request.Code)),
+        Code = EntityCodeGenerator.For("IGT"),
         Label = Required(request.Label, nameof(request.Label)),
         SortOrder = request.SortOrder,
         IconUrl = Optional(request.IconUrl),
@@ -20,9 +21,6 @@ public sealed class IngredientTypeFactory : IIngredientTypeFactory
 
     public void Update(IngredientType ingredientType, UpdateIngredientTypeRequest request, DateTime utcNow)
     {
-        if (request.Code is not null)
-            ingredientType.Code = Code(request.Code, nameof(request.Code));
-
         if (request.Label is not null)
             ingredientType.Label = Required(request.Label, nameof(request.Label));
 

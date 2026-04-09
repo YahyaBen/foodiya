@@ -1,6 +1,7 @@
 using Foodiya.Application.DTOs.PresetAvatarImage.Request;
 using Foodiya.Application.Interfaces.Factories;
 using Foodiya.Domain.Exceptions;
+using Foodiya.Domain.Extensions;
 using Foodiya.Domain.Models;
 using static Foodiya.Application.Factories.Helpers.EntityNormalizationHelper;
 
@@ -10,7 +11,7 @@ public sealed class PresetAvatarImageFactory : IPresetAvatarImageFactory
 {
     public PresetAvatarImage Create(CreatePresetAvatarImageRequest request) => new()
     {
-        Code = Code(request.Code, nameof(request.Code)),
+        Code = EntityCodeGenerator.For("PAI"),
         Label = Required(request.Label, nameof(request.Label)),
         ImageUrl = Required(request.ImageUrl, nameof(request.ImageUrl)),
         BackgroundColor = Optional(request.BackgroundColor),
@@ -22,9 +23,6 @@ public sealed class PresetAvatarImageFactory : IPresetAvatarImageFactory
     {
         if (request.ClearBackgroundColor && request.BackgroundColor is not null)
             throw new FoodiyaBadRequestException("Provide BackgroundColor or ClearBackgroundColor, not both.");
-
-        if (request.Code is not null)
-            image.Code = Code(request.Code, nameof(request.Code));
 
         if (request.Label is not null)
             image.Label = Required(request.Label, nameof(request.Label));

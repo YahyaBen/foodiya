@@ -4,9 +4,6 @@ namespace Foodiya.Application.DTOs.Unit.Request;
 
 public sealed class UpdateUnitRequest
 {
-    [StringLength(20)]
-    public string? Code { get; set; }
-
     [StringLength(50)]
     public string? Label { get; set; }
 
