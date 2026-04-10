@@ -33,6 +33,7 @@ namespace Foodiya.Application.Extensions
             services.AddScoped<IRecipeStepService, RecipeStepService>();
             services.AddScoped<IUnitService, UnitService>();
             services.AddScoped<IDailyRecipeStatService, DailyRecipeStatService>();
+            services.AddScoped<IImageUploadService, ImageUploadService>();
 
             // Factories
             services.AddSingleton<IRecipeFactory, RecipeFactory>();

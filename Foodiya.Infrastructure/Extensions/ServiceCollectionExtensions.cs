@@ -1,4 +1,5 @@
-﻿using Foodiya.Domain.Interfaces.Core;
+﻿using Foodiya.Domain.Configuration;
+using Foodiya.Domain.Interfaces.Core;
 using Foodiya.Infrastructure.Extensions.Data;
 using Foodiya.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +13,17 @@ namespace Foodiya.Infrastructure.Extensions
         {
             services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
             services.AddRepositories(configuration, isDevelopment);
-            // Add Other Services as "Azure AD", "Mail Jet", "DocuSign" ...
+
+            // Azure Blob Storage
+            // Supports: appsettings AzureStorage:ConnectionString OR Service Connector env var
+            services.Configure<BlobStorageOptions>(opts =>
+            {
+                configuration.GetSection(BlobStorageOptions.SectionName).Bind(opts);
+
+                if (string.IsNullOrWhiteSpace(opts.ConnectionString))
+                    opts.ConnectionString = configuration["AZURE_STORAGEBLOB_CONNECTIONSTRING"] ?? "";
+            });
+            services.AddSingleton<IBlobStorageService, AzureBlobStorageService>();
         }
     }
 }
