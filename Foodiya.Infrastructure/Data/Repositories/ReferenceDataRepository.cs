@@ -27,7 +27,12 @@ public sealed class ReferenceDataRepository : IReferenceDataRepository
                 .Select(item => new ReferenceDataItem
                 {
                     Id = item.Id,
-                    Label = item.Name
+                    Code = item.Code,
+                    Label = item.Name,
+                    SortOrder = item.SortOrder,
+                    ImageUrl = item.IconUrl,
+                    BackgroundColor = item.Color,
+                    IsActive = item.IsActive
                 })
                 .ToListAsync(ct),
 
@@ -38,8 +43,12 @@ public sealed class ReferenceDataRepository : IReferenceDataRepository
                 .Select(item => new ReferenceDataItem
                 {
                     Id = item.Id,
+                    Code = item.Code,
                     Label = item.Name,
-                    SortOrder = item.SortOrder
+                    SortOrder = item.SortOrder,
+                    ImageUrl = item.IconUrl,
+                    BackgroundColor = item.Color,
+                    IsActive = item.IsActive
                 })
                 .ToListAsync(ct),
 
@@ -49,8 +58,13 @@ public sealed class ReferenceDataRepository : IReferenceDataRepository
                 .Select(item => new ReferenceDataItem
                 {
                     Id = item.Id,
+                    Code = item.Code,
                     Label = item.Name,
-                    Description = item.Description
+                    Description = item.Description,
+                    SortOrder = item.SortOrder,
+                    ImageUrl = item.IconUrl,
+                    BackgroundColor = item.Color,
+                    IsActive = item.IsActive
                 })
                 .ToListAsync(ct),
 
@@ -61,7 +75,11 @@ public sealed class ReferenceDataRepository : IReferenceDataRepository
                 {
                     Id = item.Id,
                     Code = item.Code,
-                    Label = item.Label
+                    Label = item.Label,
+                    SortOrder = item.SortOrder,
+                    ImageUrl = item.IconUrl,
+                    BackgroundColor = item.Color,
+                    IsActive = item.IsActive
                 })
                 .ToListAsync(ct),
 
@@ -72,7 +90,9 @@ public sealed class ReferenceDataRepository : IReferenceDataRepository
                 {
                     Id = item.Id,
                     Code = item.Code,
-                    Label = item.Label
+                    Label = item.Label,
+                    SortOrder = item.SortOrder,
+                    IsActive = item.IsActive
                 })
                 .ToListAsync(ct),
 
@@ -83,7 +103,9 @@ public sealed class ReferenceDataRepository : IReferenceDataRepository
                 {
                     Id = item.Id,
                     Code = item.Code,
-                    Label = item.Name
+                    Label = item.Name,
+                    SortOrder = item.SortOrder,
+                    IsActive = item.IsActive
                 })
                 .ToListAsync(ct),
 

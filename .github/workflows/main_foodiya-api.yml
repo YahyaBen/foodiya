@@ -27,7 +27,7 @@ jobs:
         run: dotnet build Foodiya.API/Foodiya.API.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish Foodiya.API/Foodiya.API.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish Foodiya.API/Foodiya.API.csproj -c Release --self-contained true -r linux-x64 -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
